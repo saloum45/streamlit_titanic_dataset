@@ -96,9 +96,7 @@ def tranche_age(age):
         
 
 
-# ==========================================
 # BARRE LATÉRALE - FILTRES GLOBAUX
-# ==========================================
 
 # Standards visuels
 types_famille_ordre = ["Seul", "Petite famille", "Grande famille"]
@@ -177,9 +175,7 @@ with stl.sidebar:
 df_filtre = df[condition]
 df_filtre["Tranche d'age"]=df_filtre['Age'].apply(tranche_age)
 
-# ==========================================
 # APPLICATION PRINCIPALE ET ONGLETS
-# ==========================================
 stl.title("🚢 Titanic - Tableau de bord des passagers")
 stl.caption("Explorez les passagers du Titanic : qui étaient-ils, et qui a survécu")
 c1,c2,c3,c4,c5=stl.columns(5)
@@ -209,9 +205,7 @@ tab_survie, tab_demo, tab_familles, tab_brut = stl.tabs(
     ["Survie", "Démographie", "Familles", "Données brutes"]
 )
 
-# ------------------------------------------
 # ONGLET 1 : SURVIE 
-# ------------------------------------------
 with tab_survie:
     stl.header("Vue globale de la survie")
 
@@ -262,9 +256,8 @@ with tab_survie:
         
         g3.plotly_chart(fig3)
 
-# ------------------------------------------
+
 # ONGLET 2 : DÉMOGRAPHIE
-# ------------------------------------------
 
 with tab_demo:
     stl.header("Profil démographique des passagers")
@@ -308,9 +301,7 @@ with tab_demo:
         stl.plotly_chart(fig, use_container_width=True)
         
 
-# ------------------------------------------
 # ONGLET 3 : FAMILLES 
-# ------------------------------------------
 with tab_familles:
     stl.header("Analyse de la survie selon la structure familiale")
 
@@ -430,9 +421,7 @@ with tab_familles:
                 "- **Limites d'interprétation :** La base reconstitue les familles à partir des liens directs déclarés (`SibSp` et `Parch`). Elle ignore les liens de parenté sous des noms différents, les accompagnants, ainsi que la localisation exacte des cabines au moment de la collision."
             )
             
-# ------------------------------------------
 # ONGLET 4 : DONNÉES BRUTES
-# ------------------------------------------
 with tab_brut:
     stl.header("Aperçu des données brutes filtrées")
     stl.dataframe(df_filtre)
