@@ -110,6 +110,8 @@ def reload_filtres():
     stl.session_state.sexes_selectionnes = ["Homme", "Femme"]
     stl.session_state.ports_selectionnes = ["Cherbourg", "Queenstown", "Southampton"]
     stl.session_state.types_familles_selectionnes = ["Seul", "Petite famille", "Grande famille"]
+    stl.session_state.tranche_age_seletionnee = (0, 80)
+    
 
 with stl.sidebar:
     b1,b2=stl.columns([2,1])
@@ -157,7 +159,10 @@ with stl.sidebar:
     max_age_val = int(df["Age"].max()) if not df["Age"].isna().all() else 80
 
     age_min, age_max = stl.slider(
-        "Tranche d'age", min_age_val, max_age_val, (min_age_val, max_age_val)
+        "Tranche d'age", 
+        min_age_val, max_age_val, 
+        (min_age_val, max_age_val),
+        key="tranche_age_seletionnee"
     )
 
     # Condition globale de filtre
