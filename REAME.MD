@@ -14,7 +14,8 @@ Le titre extrait du nom est un indicateur sociologique très précis de l'âge d
 Si l'on appliquait la médiane globale (28 ans), on attribuerait un âge d'adulte à tous les enfants dont l'âge était non renseigné. L'imputation par titre évite ce biais et garantit une meilleure cohérence des données démographiques.
 
 ## 3. Petite amélioration
-Rajout d'une fonction qui remet les filtres à zéro, pour faciliter l'exploration des données
+- Rajout d'une fonction qui remet les filtres à zéro, pour faciliter l'exploration des données
+- Il y'a deux passagers sans port d'embarquement, je leur ai attribué le port le plus réccurent `Southampton`
 
 ## 4. Captures d'écran des résultats
 
