@@ -7,11 +7,7 @@ stl.set_page_config(
     page_title="Dashboard Titanic", page_icon="🚢", layout="wide"
 )
 
-# ==========================================
 # 1. CHARGEMENT ET PRÉPARATION DES DONNÉES
-# ==========================================
-
-
 @stl.cache_data
 def load_data():
     df = pd.read_csv("./data/titanic_dataset.csv")
@@ -51,19 +47,19 @@ def load_data():
         {"C": "Cherbourg", "Q": "Queenstown", "S": "Southampton"}
     )
     
-    # il y'a deux passagers sans port d'embarquement
-    df = df.dropna(subset=["Embarked"])
+    # il y'a deux passagers sans port d'embarquement soit on les supprimes du dataset soit on leur passe le port d'embarquement le plus frequent
+    # df = df.dropna(subset=["Embarked"])
+    # df[df["Embarked"].isna()]
+    port_frequent=df["Embarked"].mode()[0]
+    df["Embarked"]=df["Embarked"].fillna(port_frequent) 
+    
     
     return df
 
 
 df = load_data()
 
-# ==========================================
 # FONCTION GÉNÉRIQUE D'AGRÉGATION
-# ==========================================
-
-
 # Fonction générique de group by Retourne un DataFrame avec Total, Survivants et Taux (%)
 def taux_par(group_col):
 
@@ -79,9 +75,7 @@ def taux_par(group_col):
     return res
 
 
-# ==========================================
 # FONCTION TRANCHE D'AGE
-# ==========================================
 def tranche_age(age):
     if pd.isna(age):
         return "Inconnu"
@@ -94,10 +88,8 @@ def tranche_age(age):
     else :
         return "Adulte"
         
-
-
+        
 # BARRE LATÉRALE - FILTRES GLOBAUX
-
 # Standards visuels
 types_famille_ordre = ["Seul", "Petite famille", "Grande famille"]
 sex_ordre = ["Femme", "Homme"]
@@ -395,12 +387,12 @@ with tab_familles:
         stl.subheader("Interprétation des résultats")
         stl.markdown(
             """
-        Voyager en **petite famille (2 à 4 personnes)** offrait les meilleures chances de survie (**56%**, *100/180 passagers*), 
-        nettement supérieures à celles des passagers **seuls** (**30%**, *163/537 passagers*). En revanche, le taux de survie s'effondre 
+        Voyager en **petite famille (2 à 4 personnes)** offrait les meilleures chances de survie (**58%**, *169/292 passagers*), 
+        nettement supérieures à celles des passagers **seuls** (**30%**, *161/537 passagers*). En revanche, le taux de survie s'effondre 
         à **16%** (*10/62 passagers*) pour les **grandes familles (5 personnes et plus)**.
         
-        En examinant l'explication concurrente de la classe, le tableau croisé révèle que **76% des grandes familles (47/62)** 
-        voyageaient en 3ᵉ classe, contre seulement **8% en 1ère classe (5/62)**. La faible survie des grandes familles s'explique donc 
+        En examinant l'explication concurrente de la classe, le tableau croisé révèle que **87% des grandes familles (54/62)** 
+        voyageaient en 3ᵉ classe, contre seulement **10% en 1ère classe (6/62)**. La faible survie des grandes familles s'explique donc 
         principalement par leur surreprésentation en 3ᵉ classe et par la difficulté logistique de regrouper un grand nombre de personnes lors du naufrage.
         """
         )
@@ -412,10 +404,10 @@ with tab_familles:
             pct_imp = (nb_imp / len(df)) * 100
 
             stl.write(
-                f"- **Effectif des grandes familles :** {nb_gf} passagers seulement (soit {nb_gf/len(df)*100:.1f}% de la base globale)."
+                f"- **Effectif des grandes familles :** {nb_gf} passagers seulement (soit {nb_gf/len(df)*100:.0f}% de la base globale)."
             )
             stl.write(
-                f"- **Part des âges imputés :** {nb_imp} âges imputés sur l'ensemble du dataset, soit **{pct_imp:.1f}%** des lignes."
+                f"- **Part des âges imputés :** {nb_imp} âges imputés sur l'ensemble du dataset, soit **{pct_imp:.0f}%** des lignes."
             )
             stl.write(
                 "- **Limites d'interprétation :** La base reconstitue les familles à partir des liens directs déclarés (`SibSp` et `Parch`). Elle ignore les liens de parenté sous des noms différents, les accompagnants, ainsi que la localisation exacte des cabines au moment de la collision."
